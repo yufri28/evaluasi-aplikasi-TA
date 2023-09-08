@@ -1,8 +1,6 @@
 <?php 
 session_start();
-if(isset($_SESSION['login']) && $_SESSION['login'] == true && $_SESSION['level'] == "pelamar"){
-    header("Location: ../user/index.php");
-}else if(isset($_SESSION['login']) && $_SESSION['login'] == true && $_SESSION['level'] == 0) {
+if(isset($_SESSION['login']) && $_SESSION['login'] == true && $_SESSION['level'] == 0) {
     header("Location: ../admin/index.php");
 }
 require_once '../config.php';

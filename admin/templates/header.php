@@ -2,6 +2,9 @@
 
    session_start();
    require './../config.php';
+   if(!isset($_SESSION['login']) && $_SESSION['login'] != true) {
+        header("Location: ./../auth/login.php");
+    }
 ?>
 
 <!DOCTYPE html>
