@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^/]+)/$ $1 [L]
+RewriteRule ^([^/]+)/([^/]+)/$ /$1/$2 [L]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/$ /$1/$2/$3 [L]
+RewriteRule ^([^/]+)/$ $1.php [L]
+
