@@ -37,6 +37,35 @@
 <!-- end::create modal aplikasi -->
 <!-- end::modal aplikasi -->
 
+<!-- begin::modal pertanyaan -->
+<!-- begin::create modal pertanyaan -->
+<div class="modal fade" id="addPertanyaan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Pertanyaan</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="pertanyaan" class="form-label">Pertanyaan <small
+                                class="text-danger">*</small></label>
+                        <textarea class="form-control form-control-sm" id="pertanyaan" required name="pertanyaan"
+                            rows="9"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" name="save_question" class="btn btn-sm btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end::create modal pertanyaan -->
+<!-- end::modal pertanyaan -->
+
 <div class="modal fade" id="kt_modal_create_app" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-900px">

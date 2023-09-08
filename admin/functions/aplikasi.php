@@ -1,6 +1,6 @@
 <?php 
 require_once './../config.php';
-class aplikasi
+class Aplikasi
 {
     private $db; 
     public function __construct()
@@ -69,7 +69,7 @@ class aplikasi
 }
 
 
-$Aplikasi = new aplikasi();
+$Aplikasi = new Aplikasi();
 
 
 

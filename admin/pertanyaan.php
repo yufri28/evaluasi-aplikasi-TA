@@ -3,136 +3,58 @@
  require './functions/pertanyaan.php';
 $id_auth = $_SESSION['id_auth'];
  
-// begin::CRUD data aplikasi
+// begin::CRUD data pertanyaan
 // begin::read
-$dataAplikasi = $Aplikasi->get_data_aplikasi($id_auth);
+$dataPertanyaan = $Pertanyaan->get_data_question();
 // end::read
-$num_rows_app = $Aplikasi->count_num_rows_app();
+$num_rows_question = $Pertanyaan->count_num_rows_question();
 // begin::create, update and delete
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
     // begin::create
-    if(isset($_POST['save_app']))
+    if(isset($_POST['save_question']))
     {
-       $nama_aplikasi = htmlspecialchars($_POST['nama_aplikasi']);
-       $id_auth = htmlspecialchars($_POST['id_auth']);
-       $deskripsi = htmlspecialchars($_POST['deskripsi']);
-
-        // Pastikan ada file gambar yang diunggah
-        if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
-            $namaFile = $_FILES['gambar']['name'];
-            $lokasiSementara = $_FILES['gambar']['tmp_name'];
-            
-            // Tentukan lokasi tujuan penyimpanan
-            $targetDir = '../img/uploads/';
-            $targetFilePath = $targetDir . $namaFile;
-
-            // Cek apakah nama file sudah ada dalam direktori target
-            if (file_exists($targetFilePath)) {
-                $fileInfo = pathinfo($namaFile);
-                $baseName = $fileInfo['filename'];
-                $extension = $fileInfo['extension'];
-                $counter = 1;
-
-                // Loop hingga menemukan nama file yang unik
-                while (file_exists($targetFilePath)) {
-                    $namaFile = $baseName . '_' . $counter . '.' . $extension;
-                    $targetFilePath = $targetDir . $namaFile;
-                    $counter++;
-                }
-            }
-
-            // Pindahkan file gambar dari lokasi sementara ke lokasi tujuan
-            if (move_uploaded_file($lokasiSementara, $targetFilePath)) {
-                $dataAplikasi = [
-                    'nama_aplikasi' => $nama_aplikasi,
-                    'deskripsi' => $deskripsi,
-                    'id_auth' => $id_auth,
-                    'gambar' => $namaFile,
-                ];
-                $Aplikasi->create_data_aplikasi($dataAplikasi);
-            } else {
-                return $_SESSION['error'] = 'Tidak ada data yang dikirim!';
-            }
-        } else {
-            return $_SESSION['error'] = 'Tidak ada data yang dikirim!';
-        }    
+       $pertanyaan = htmlspecialchars($_POST['pertanyaan']);
+       if($pertanyaan != "")
+       {
+           $Pertanyaan->create_data_question($pertanyaan);
+       }
+       else 
+       {
+         return $_SESSION['error'] = 'Tidak ada data yang dikirim!';
+       }    
     }
     // end::create
     // begin::update
-    if(isset($_POST['update_app']))
+    if(isset($_POST['update_question']))
     {
-       $id_aplikasi = htmlspecialchars($_POST['id_aplikasi']);
-       $nama_aplikasi = htmlspecialchars($_POST['nama_aplikasi']);
-       $id_auth = htmlspecialchars($_POST['id_auth']);
-       $deskripsi = htmlspecialchars($_POST['deskripsi']);
+       $id_pertanyaan = htmlspecialchars($_POST['id_pertanyaan']);
+       $pertanyaan = htmlspecialchars($_POST['pertanyaan']);
 
-        // Pastikan ada file gambar yang diunggah
-        if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
-            $namaFile = $_FILES['gambar']['name'];
-            $lokasiSementara = $_FILES['gambar']['tmp_name'];
-            
-            // Tentukan lokasi tujuan penyimpanan
-            $targetDir = '../img/uploads/';
-            $targetFilePath = $targetDir . $namaFile;
-
-            // Cek apakah nama file sudah ada dalam direktori target
-            if (file_exists($targetFilePath)) {
-                $fileInfo = pathinfo($namaFile);
-                $baseName = $fileInfo['filename'];
-                $extension = $fileInfo['extension'];
-                $counter = 1;
-
-                // Loop hingga menemukan nama file yang unik
-                while (file_exists($targetFilePath)) {
-                    $namaFile = $baseName . '_' . $counter . '.' . $extension;
-                    $targetFilePath = $targetDir . $namaFile;
-                    $counter++;
-                }
-            }
-
-            // Pindahkan file gambar dari lokasi sementara ke lokasi tujuan
-            if (move_uploaded_file($lokasiSementara, $targetFilePath)) {
-                // Hapus file gambar lama jika ada
-                $gambarLama =  htmlspecialchars($_POST['gambar_lama']);
-                $pathGambarLama = $targetDir . $gambarLama;
-                if (file_exists($pathGambarLama) && is_file($pathGambarLama)) {
-                    unlink($pathGambarLama); // Hapus file gambar lama
-                }
-                $dataAplikasi = [
-                    'id_aplikasi' => $id_aplikasi,
-                    'nama_aplikasi' => $nama_aplikasi,
-                    'deskripsi' => $deskripsi,
-                    'id_auth' => $id_auth,
-                    'gambar' => $namaFile,
-                ];
-                $Aplikasi->update_data_aplikasi($dataAplikasi);
-            } else {
-                return $_SESSION['error'] = 'Tidak ada data yang dikirim!';
-            }
-        } else {
-            $namaFile = htmlspecialchars($_POST['gambar_lama']);
-            $dataAplikasi = [
-                'id_aplikasi' => $id_aplikasi,
-                'nama_aplikasi' => $nama_aplikasi,
-                'deskripsi' => $deskripsi,
-                'id_auth' => $id_auth,
-                'gambar' => $namaFile,
+        if($id_pertanyaan != "" && $pertanyaan != "")
+        {
+            $dataQuestion = [
+                'id_pertanyaan' => $id_pertanyaan,
+                'pertanyaan' => $pertanyaan
             ];
-            $Aplikasi->update_data_aplikasi($dataAplikasi);
-        }    
+            $Pertanyaan->update_data_question($dataQuestion);
+        }
+        else {
+            return $_SESSION['error'] = 'Tidak ada data yang dikirim!';
+        }
+        
     }
     // end::update
     // begin::delete
-    if(isset($_POST['delete_app']))
+    if(isset($_POST['delete_question']))
     {
-       $id_aplikasi = htmlspecialchars($_POST['id_aplikasi']);
-       $Aplikasi->delete_data_aplikasi($id_aplikasi);
+       $id_question = htmlspecialchars($_POST['id_pertanyaan']);
+       $Pertanyaan->delete_data_question($id_question);
     }
     // end::delete
 }
 // end::create, update and delete
-// end::CRUD data aplikasi
+// end::CRUD data pertanyaan
 ?>
 
 <!-- begin::Notification -->
@@ -184,12 +106,12 @@ Swal.fire({
                     <div class="card-header border-0 pt-5">
                         <h3 class="card-title align-items-start flex-column">
                             <span class="card-label fw-bolder fs-3 mb-1">Daftar Pertanyaan</span>
-                            <span class="text-muted mt-1 fw-bold fs-7"><?= $num_rows_app;?>
-                                aplikasi</span>
+                            <span class="text-muted mt-1 fw-bold fs-7"><?= $num_rows_question;?>
+                                pertanyaan</span>
                         </h3>
                         <div class="card-toolbar">
                             <!--begin::Menu-->
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#addAplikasi"
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#addPertanyaan"
                                 class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
                                 data-kt-menu-placement="bottom-end">
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
@@ -305,46 +227,31 @@ Swal.fire({
                                 <thead>
                                     <tr class="border-0">
                                         <th class="p-0"></th>
-                                        <!-- <th class="p-0 min-w-150px"></th> -->
                                         <th class="p-0 min-w-200px"></th>
-                                        <!-- <th class="p-0 min-w-150px"></th> -->
                                         <th class="p-0 min-w-100px text-end"></th>
                                     </tr>
                                 </thead>
                                 <!--end::Table head-->
                                 <!--begin::Table body-->
                                 <tbody>
-                                    <?php foreach ($dataAplikasi as $key => $aplikasi):?>
+                                    <?php $i = 0;?>
+                                    <?php foreach ($dataPertanyaan as $key => $pertanyaan):?>
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <!--begin::Avatar-->
-                                                <div class="symbol symbol-45px me-5">
-                                                    <img alt="Pic" src="../img/uploads/<?=$aplikasi['gambar'];?>" />
-                                                </div>
-                                                <!--end::Avatar-->
-                                                <!--begin::Name-->
                                                 <div class="d-flex justify-content-start flex-column">
                                                     <a href="#"
-                                                        class="text-dark fw-bolder text-hover-primary mb-1 fs-6"><?=$aplikasi['nama_aplikasi'];?></a>
+                                                        class="text-dark fw-bolder text-hover-primary mb-1 fs-6"><?=++$i;?></a>
                                                 </div>
                                                 <!--end::Name-->
                                             </div>
                                         </td>
-                                        <!-- <td class="text-end">
-                                            <a href="#"
-                                                class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">$560,000</a>
-                                            <span class="text-muted fw-bold text-muted d-block fs-7">Paid</span>
-                                        </td> -->
                                         <td class="text-muted fw-bold">
-                                            <?= substr($aplikasi['deskripsi'], 0, 50).'...';?>
+                                            <?= substr($pertanyaan['pertanyaan'], 0, 50).'...';?>
                                         </td>
-                                        <!-- <td class="text-end">
-                                            <span class="badge badge-light-success">Approved</span>
-                                        </td> -->
                                         <td class="text-end">
                                             <button type="button" data-bs-toggle="modal"
-                                                data-bs-target="#editAplikasi<?=$aplikasi['id_aplikasi'];?>"
+                                                data-bs-target="#editPertanyaan<?=$pertanyaan['id_pertanyaan'];?>"
                                                 class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                 <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                 <span class="svg-icon svg-icon-3">
@@ -361,7 +268,7 @@ Swal.fire({
                                                 <!--end::Svg Icon-->
                                             </button>
                                             <button type="button" data-bs-toggle="modal"
-                                                data-bs-target="#hapusAplikasi<?=$aplikasi['id_aplikasi'];?>"
+                                                data-bs-target="#hapusPertanyaan<?=$pertanyaan['id_pertanyaan'];?>"
                                                 class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                                 <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                 <span class="svg-icon svg-icon-3">
@@ -410,54 +317,39 @@ Swal.fire({
 <!--begin::Modals-->
 <!--begin::Modal - Create App-->
 <?php require './templates/modals.php';?>
-<!-- begin::edit modal aplikasi -->
-<?php foreach ($dataAplikasi as $key => $aplikasi):?>
-<div class="modal fade" id="editAplikasi<?=$aplikasi['id_aplikasi'];?>" tabindex="-1"
+<!-- begin::edit modal pertanyaan -->
+<?php foreach ($dataPertanyaan as $key => $pertanyaan):?>
+<div class="modal fade" id="editPertanyaan<?=$pertanyaan['id_pertanyaan'];?>" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="" method="post" enctype="multipart/form-data">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Aplikasi</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Pertanyaan</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <input type="hidden" name="id_auth" value="<?=$aplikasi['f_id_auth'];?>">
-                        <input type="hidden" name="id_aplikasi" value="<?=$aplikasi['id_aplikasi'];?>">
-                        <label for="nama_aplikasi" class="form-label">Nama Aplikasi <small
+                        <input type="hidden" name="id_pertanyaan" value="<?=$pertanyaan['id_pertanyaan'];?>">
+                        <label for="pertanyaan" class="form-label">Pertanyaan <small
                                 class="text-danger">*</small></label>
-                        <input type="text" name="nama_aplikasi" value="<?=$aplikasi['nama_aplikasi'];?>"
-                            class="form-control form-control-sm" required id="nama_aplikasi">
-                    </div>
-                    <div class="mb-3">
-                        <label for="deskripsi" class="form-label">Deskripsi <small class="text-danger">*</small></label>
-                        <textarea class="form-control form-control-sm" id="deskripsi" required name="deskripsi"
-                            rows="9"><?=$aplikasi['deskripsi'];?></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="gambar" class="form-label">Gambar</label>
-                        <input type="hidden" name="gambar_lama" value="<?=$aplikasi['gambar'];?>">
-                        <input type="file" name="gambar" class="form-control form-control-sm" id="gambar">
-                        <small><i>Kosongkan jika tidak ingin mengubah gambar</i></small>
-
-                        <img src="./../img/uploads/<?=$aplikasi['gambar'];?>" class="img-fluid"
-                            alt="<?=$aplikasi['nama_aplikasi'];?>">
+                        <textarea class="form-control form-control-sm" id="pertanyaan" required name="pertanyaan"
+                            rows="9"><?=$pertanyaan['pertanyaan'];?></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="update_app" class="btn btn-sm btn-primary">Save</button>
+                    <button type="submit" name="update_question" class="btn btn-sm btn-primary">Save</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 <?php endforeach;?>
-<!-- end::edit modal aplikasi -->
-<!-- begin::hapus modal aplikasi -->
-<?php foreach ($dataAplikasi as $key => $aplikasi):?>
-<div class="modal fade" id="hapusAplikasi<?=$aplikasi['id_aplikasi'];?>" tabindex="-1"
+<!-- end::edit modal pertanyaan -->
+<!-- begin::hapus modal pertanyaan -->
+<?php foreach ($dataPertanyaan as $key => $pertanyaan):?>
+<div class="modal fade" id="hapusPertanyaan<?=$pertanyaan['id_pertanyaan'];?>" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -468,13 +360,14 @@ Swal.fire({
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <input type="hidden" name="id_aplikasi" value="<?=$aplikasi['id_aplikasi'];?>">
-                        <span>Anda yakin ingin hapus aplikasi <strong><?=$aplikasi['nama_aplikasi'];?></strong> ?</span>
+                        <input type="hidden" name="id_pertanyaan" value="<?=$pertanyaan['id_pertanyaan'];?>">
+                        <span>Anda yakin ingin hapus pertanyaan <strong><?=$pertanyaan['pertanyaan'];?></strong>
+                            ?</span>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="delete_app" class="btn btn-sm btn-primary">Delete</button>
+                    <button type="submit" name="delete_question" class="btn btn-sm btn-primary">Delete</button>
                 </div>
             </form>
         </div>

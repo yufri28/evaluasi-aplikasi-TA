@@ -1,6 +1,6 @@
 <?php 
 require_once './../config.php';
-class aplikasi
+class Pertanyaan
 {
     private $db; 
     public function __construct()
@@ -8,55 +8,45 @@ class aplikasi
         $this->db = connectDatabase();
     }
 
-    public function get_data_aplikasi($id_auth)
+    public function get_data_question()
     {
-        return $this->db->query("SELECT * FROM aplikasi WHERE f_id_auth='$id_auth'");
+        return $this->db->query("SELECT * FROM pertanyaan");
     }
 
-    public function count_num_rows_app()
+    public function count_num_rows_question()
     {
-        $data = mysqli_fetch_assoc($this->db->query("SELECT COUNT(*) AS jumlah_rows_app FROM aplikasi"));
-        return $data['jumlah_rows_app'];
+        $data = mysqli_fetch_assoc($this->db->query("SELECT COUNT(*) AS num_rows_question FROM pertanyaan"));
+        return $data['num_rows_question'];
     }
 
-    public function create_data_aplikasi($data)
+    public function create_data_question($pertanyaan)
     {
-    
-        $nama_aplikasi = $data['nama_aplikasi'];
-        $deskripsi = $data['deskripsi'];
-        $id_auth = $data['id_auth'];
-        $gambar = $data['gambar'];
-        $insert_app = $this->db->query("INSERT INTO aplikasi(id_aplikasi,nama_aplikasi,deskripsi,f_id_auth,gambar) VALUES (0,'$nama_aplikasi','$deskripsi','$id_auth','$gambar')");
-     
-        if($insert_app)
+        $insert_question = $this->db->query("INSERT INTO pertanyaan(id_pertanyaan,pertanyaan) VALUES (0,'$pertanyaan')");
+        if($insert_question)
         {
            return $_SESSION['success'] = 'Data berhasil disimpan!';
         }else{
            return $_SESSION['error'] = 'Data gagal disimpan!';
         }
     }
-    public function update_data_aplikasi($data)
+    public function update_data_question($data)
     {
 
-        $id_aplikasi = $data['id_aplikasi'];
-        $nama_aplikasi = $data['nama_aplikasi'];
-        $deskripsi = $data['deskripsi'];
-        $id_auth = $data['id_auth'];
-        $gambar = $data['gambar'];
-        $update_app = $this->db->query("UPDATE aplikasi  SET nama_aplikasi='$nama_aplikasi', deskripsi='$deskripsi',f_id_auth='$id_auth',gambar='$gambar' WHERE id_aplikasi='$id_aplikasi'");
-     
-        if($update_app)
+        $id_pertanyaan = $data['id_pertanyaan'];
+        $pertanyaan = $data['pertanyaan'];
+        $update_question = $this->db->query("UPDATE pertanyaan SET pertanyaan='$pertanyaan' WHERE id_pertanyaan='$id_pertanyaan'");
+        if($update_question)
         {
            return $_SESSION['success'] = 'Data berhasil diupdate!';
         }else{
            return $_SESSION['error'] = 'Data gagal diupdate!';
         }
     }
-    public function delete_data_aplikasi($id_aplikasi)
+    public function delete_data_question($id_question)
     {
-        $delete_app = $this->db->query("DELETE FROM aplikasi WHERE id_aplikasi='$id_aplikasi'");
+        $delete_question = $this->db->query("DELETE FROM pertanyaan WHERE id_pertanyaan='$id_question'");
      
-        if($delete_app)
+        if($delete_question)
         {
            return $_SESSION['success'] = 'Data berhasil didelete!';
         }else{
@@ -69,7 +59,7 @@ class aplikasi
 }
 
 
-$Aplikasi = new aplikasi();
+$Pertanyaan = new Pertanyaan();
 
 
 

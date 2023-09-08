@@ -305,7 +305,7 @@ Swal.fire({
                                 <thead>
                                     <tr class="border-0">
                                         <th class="p-0"></th>
-                                        <!-- <th class="p-0 min-w-150px"></th> -->
+                                        <th class="p-0"></th>
                                         <th class="p-0 min-w-200px"></th>
                                         <!-- <th class="p-0 min-w-150px"></th> -->
                                         <th class="p-0 min-w-100px text-end"></th>
@@ -314,8 +314,14 @@ Swal.fire({
                                 <!--end::Table head-->
                                 <!--begin::Table body-->
                                 <tbody>
+                                    <?php 
+                                     $i = 0;
+                                    ?>
                                     <?php foreach ($dataAplikasi as $key => $aplikasi):?>
                                     <tr>
+                                        <td class="text-muted fw-bold">
+                                            <?= ++$i;?>
+                                        </td>
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <!--begin::Avatar-->
@@ -418,7 +424,7 @@ Swal.fire({
         <div class="modal-content">
             <form action="" method="post" enctype="multipart/form-data">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Aplikasi</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Aplikasi</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
