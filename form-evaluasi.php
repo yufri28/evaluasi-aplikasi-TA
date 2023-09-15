@@ -23,6 +23,7 @@ if(isset($_POST['jawab']))
         }
         
         echo ($hasil * 2.5);
+        
 
 }
 ?>
