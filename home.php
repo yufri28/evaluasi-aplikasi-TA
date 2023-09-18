@@ -48,20 +48,12 @@ require_once './config.php';
         <!-- Jumbotron -->
         <div class="text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
             <div class="container d-flex" style="height:100vh;">
-                <div class="row gx-lg-5 align-items-center text-center">
-                    <div class="col-lg-6 text-start mb-5 mb-lg-0">
-                        <h4 style="color: hsl(217, 10%, 50.8%)">
+                <div class="row gx-lg-5 align-items-center text-center" style=" width: 100%;">
+                    <div class="col-12 text-center mb-5 mb-lg-0">
+                        <h4 class="text-center" style="color: hsl(217, 10%, 50.8%)">
                             SISTEM EVALUASI APLIKASI</i>
                         </h4>
 
-                    </div>
-                    <div class="col-lg-6 mb-5 mb-lg-0">
-                        <div class="gambar text-end">
-                            <!-- <div class="card-body d-flex justify-content-center" style="width:100%;height:100%;"> -->
-                            <img style="width:400px; height:400px; border-radius:0.3em;" class="shadow-lg"
-                                src="./assets/images/gereja.jpg" alt="">
-                            <!-- </div> -->
-                        </div>
                     </div>
                 </div>
             </div>
@@ -73,7 +65,8 @@ require_once './config.php';
         <!-- Copyright -->
         <div class="text-center p-3" style="background-color: #F0F0F0;">
             © 2023 Copyright:
-            <a class="text-dark" href="https://www.instagram.com/ilkom19_unc/">Intel'19</a>
+            <a href="https://www.instagram.com/yufrii__/" target="_blank"
+                class="text-gray-800 text-hover-primary">yupii__</a>
         </div>
         <!-- Copyright -->
     </footer>

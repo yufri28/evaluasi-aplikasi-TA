@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 13 Sep 2023 pada 08.48
+-- Waktu pembuatan: 18 Sep 2023 pada 04.22
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.1.6
 
@@ -40,8 +40,6 @@ CREATE TABLE `aplikasi` (
 --
 
 INSERT INTO `aplikasi` (`id_aplikasi`, `nama_aplikasi`, `deskripsi`, `f_id_auth`, `gambar`) VALUES
-(8, 'dadas', 'dasdasdsadasdasdas', 1, 'Screenshot (9)_1.png'),
-(9, 'dasdsa', 'dasdasda', 1, 'Screenshot (10)_3.png'),
 (11, 'da', 'dasdasda', 1, 'Screenshot (23).png'),
 (12, 'dasddasdas', 'dasdasdsadasdasd', 1, 'Screenshot (8)_3.png'),
 (13, 'dsdasdas', 'dsadasdas', 1, 'Screenshot (9)_2.png'),
@@ -88,7 +86,32 @@ INSERT INTO `pertanyaan` (`id_pertanyaan`, `pertanyaan`) VALUES
 (5, 'Saya pikir aplikasi mudah untuk digunakan?'),
 (6, 'Saya pikir saya akan membutuhkan bantuan dari orang teknis untuk \r\ndapat menggunakan aplikasi ini?'),
 (7, 'Saya menemukan berbagai fungsi di aplikasi ini di integrasikan \r\ndengan baik?'),
-(8, 'Saya pikir ada terlalu banyak ketidaksesuaian dalam aplikasi ini?');
+(8, 'Saya pikir ada terlalu banyak ketidaksesuaian dalam aplikasi ini?'),
+(9, 'Saya bayangkan bahwa kebanyakan orang akan mudah untuk \r\nmempelajari aplikasi ini dengan sangat cepat?'),
+(10, 'Saya menemukan aplikasi ini sangat rumit untuk digunakan?'),
+(11, 'Saya merasa sangat percaya diri untuk menggunakan aplikasi ini?'),
+(12, 'Saya perlu banyak hal sebelum saya bisa memulai menggunakan aplikasi?');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `skor_asli`
+--
+
+CREATE TABLE `skor_asli` (
+  `id_skor_asli` int(11) NOT NULL,
+  `q1` int(11) NOT NULL,
+  `q2` int(11) NOT NULL,
+  `q3` int(11) NOT NULL,
+  `q4` int(11) NOT NULL,
+  `q5` int(11) NOT NULL,
+  `q6` int(11) NOT NULL,
+  `q7` int(11) NOT NULL,
+  `q8` int(11) NOT NULL,
+  `q9` int(11) NOT NULL,
+  `q10` int(11) NOT NULL,
+  `f_id_responden` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
@@ -98,7 +121,8 @@ INSERT INTO `pertanyaan` (`id_pertanyaan`, `pertanyaan`) VALUES
 -- Indeks untuk tabel `aplikasi`
 --
 ALTER TABLE `aplikasi`
-  ADD PRIMARY KEY (`id_aplikasi`,`f_id_auth`);
+  ADD PRIMARY KEY (`id_aplikasi`,`f_id_auth`),
+  ADD KEY `f_id_auth` (`f_id_auth`);
 
 --
 -- Indeks untuk tabel `auth`
@@ -111,6 +135,13 @@ ALTER TABLE `auth`
 --
 ALTER TABLE `pertanyaan`
   ADD PRIMARY KEY (`id_pertanyaan`);
+
+--
+-- Indeks untuk tabel `skor_asli`
+--
+ALTER TABLE `skor_asli`
+  ADD PRIMARY KEY (`id_skor_asli`),
+  ADD KEY `f_id_responden` (`f_id_responden`);
 
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
@@ -132,7 +163,23 @@ ALTER TABLE `auth`
 -- AUTO_INCREMENT untuk tabel `pertanyaan`
 --
 ALTER TABLE `pertanyaan`
-  MODIFY `id_pertanyaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_pertanyaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT untuk tabel `skor_asli`
+--
+ALTER TABLE `skor_asli`
+  MODIFY `id_skor_asli` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `aplikasi`
+--
+ALTER TABLE `aplikasi`
+  ADD CONSTRAINT `aplikasi_ibfk_1` FOREIGN KEY (`f_id_auth`) REFERENCES `auth` (`id_auth`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
