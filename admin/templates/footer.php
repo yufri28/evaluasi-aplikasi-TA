@@ -61,6 +61,15 @@ var hostUrl = "./assets/";
   <script src="./assets/js/custom/apps/chat/chat.js"></script>
   <script src="./assets/js/custom/modals/create-app.js"></script>
   <script src="./assets/js/custom/modals/upgrade-plan.js"></script>
+  <!-- Script untuk highlight.js dari CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+
+  <!-- Inisialisasi highlight.js -->
+  <script>
+document.addEventListener("DOMContentLoaded", function() {
+    hljs.initHighlightingOnLoad();
+});
+  </script>
   <!--end::Page Custom Javascript-->
   <!--end::Javascript-->
   </body>

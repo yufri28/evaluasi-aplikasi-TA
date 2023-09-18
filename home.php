@@ -50,16 +50,8 @@ require_once './config.php';
             <div class="container d-flex" style="height:100vh;">
                 <div class="row gx-lg-5 align-items-center text-center">
                     <div class="col-lg-6 text-start mb-5 mb-lg-0">
-                        <h1 class="my-4 display-5 fw-bolder ls-tight">
-                            Sistem Pendukung Keputusan <br />
-                            <span style="color:#E7B10A">SELEKSI CALON
-                                PENERIMA BEASISWA</span>
-                        </h1>
                         <h4 style="color: hsl(217, 10%, 50.8%)">
-                            PADA JENJANG PENDIDIKAN
-                            SEKOLAH MENENGAH ATAS (SMA) DAN PERGURUAN
-                            TINGGI DI GMIT PAULUS KUPANG MENGGUNAKAN
-                            METODE PROFILE MATCHING</i>
+                            SISTEM EVALUASI APLIKASI</i>
                         </h4>
 
                     </div>

@@ -3,6 +3,18 @@
 require './config.php';
 
 // $koneksi = new connectDatabase();
+$data_aplikasi = array();
+if(isset($_GET['app']))
+{
+    $id_app = base64_decode($_GET['app']);
+    if($id_app != '')
+    {
+        $data_aplikasi = mysqli_fetch_assoc($koneksi->query("SELECT * FROM aplikasi WHERE id_aplikasi='$id_app'"));
+    }
+}else{
+    header("Location: ./index.php");
+    exit;
+}
 
 $data_pertanyaan = $koneksi->query("SELECT * FROM pertanyaan");
 
@@ -32,7 +44,7 @@ if(isset($_POST['jawab']))
 <html>
 
 <head>
-    <title>SPK Beasiswa</title>
+    <title>EVALUASI APLIKASI</title>
     <style>
     .navbar-transparent {
         background-color: hsl(0, 0%, 96%);
@@ -59,18 +71,26 @@ if(isset($_POST['jawab']))
         <div class="text-lg-start" style="background-color: hsl(0, 0%, 96%)">
             <div class="container">
                 <div class="row gx-lg-5 justify-content-center">
-                    <div class="card d-flex justify-content-center col-md-8">
+                    <div class="d-flex justify-content-center col-md-7">
                         <div class="mb-5 mt-5">
-                            <form action="" method="post">
+                            <div class="form-outline card p-5 mb-4">
+                                <h4 class="text-center"><?=$data_aplikasi['nama_aplikasi'];?></h4>
+                                <div class="d-flex">
+                                    <img class="me-3 mt-3 rounded-circle" style="width: 200px; height:200px;"
+                                        src="./img/uploads/<?=$data_aplikasi['gambar'];?>" alt="" srcset="">
+                                    <p class="fs-6" style="text-align: justify;"><?=$data_aplikasi['deskripsi'];?></p>
+                                </div>
+                            </div>
+                            <form class="mt-4" action="" method="post">
                                 <?php 
                                  $i = 0;
                                 ?>
                                 <?php foreach ($data_pertanyaan as $key => $value):?>
                                 <!-- Email input -->
-                                <div class="form-outline mb-4">
+                                <div class="form-outline card p-5 mb-4">
                                     <label class="form-label" for="form2Example<?=++$i;?>"><?=$value['pertanyaan'];?>
                                     </label>
-                                    <div class="d-flex">
+                                    <div class="">
                                         <div class="form-check pe-3">
                                             <input class="form-check-input" type="radio"
                                                 name="jawab<?=$value['id_pertanyaan'];?>"
@@ -132,7 +152,8 @@ if(isset($_POST['jawab']))
         <!-- Copyright -->
         <div class="text-center p-3" style="background-color: #F0F0F0;">
             © 2023 Copyright:
-            <a class="text-dark" href="https://www.instagram.com/ilkom19_unc/">Intel'19</a>
+            <a href="https://www.instagram.com/yufrii__/" target="_blank"
+                class="text-gray-800 text-hover-primary">yupii__</a>
         </div>
         <!-- Copyright -->
     </footer>

@@ -516,7 +516,9 @@ Swal.fire({
             <div class="modal-body">
                 <div class="mb-3">
                     <span>Silakan klik tombol Copy untuk menyalin link aplikasi
-                        <strong><?=$aplikasi['nama_aplikasi'];?></strong>!</span>
+                        <strong><?=$aplikasi['nama_aplikasi'];?></strong> atau copy link berikut
+                        <pre><code class="language-python"><?=BASE_URL.'form-evaluasi.php?app='.base64_encode($aplikasi['id_aplikasi']);?></code></pre>
+                    </span>
                 </div>
             </div>
             <div class="modal-footer">
