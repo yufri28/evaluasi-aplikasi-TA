@@ -73,21 +73,33 @@ if(isset($_POST['jawab']))
                 <div class="row gx-lg-5 justify-content-center">
                     <div class="d-flex justify-content-center col-md-7">
                         <div class="mb-5 mt-5">
-                            <div class="form-outline card p-5 mb-4">
-                                <h4 class="text-center"><?=$data_aplikasi['nama_aplikasi'];?></h4>
-                                <div class="d-flex">
-                                    <img class="me-3 mt-3 rounded-circle" style="width: 200px; height:200px;"
-                                        src="./img/uploads/<?=$data_aplikasi['gambar'];?>" alt="" srcset="">
-                                    <p class="fs-6" style="text-align: justify;"><?=$data_aplikasi['deskripsi'];?></p>
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img class="rounded-start" style="width: 200px; height:200px;"
+                                            src="./img/uploads/<?=$data_aplikasi['gambar'];?>" alt="" srcset="">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h4 class="text-start"><?=$data_aplikasi['nama_aplikasi'];?></h4>
+                                            <p class="fs-6" style="text-align: justify;">
+                                                <?=$data_aplikasi['deskripsi'];?></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <form class="mt-4" action="" method="post">
+                                <div class="form-outline shadow-sm card p-5 mb-4">
+                                    <label class="form-label" for="form2Example">Nama Anda</label>
+                                    <input type="text" class="form-control" placeholder="Masukkan nama anda"
+                                        name="nama_responden">
+                                </div>
                                 <?php 
                                  $i = 0;
                                 ?>
                                 <?php foreach ($data_pertanyaan as $key => $value):?>
                                 <!-- Email input -->
-                                <div class="form-outline card p-5 mb-4">
+                                <div class="form-outline shadow-sm card p-5 mb-4">
                                     <label class="form-label" for="form2Example<?=++$i;?>"><?=$value['pertanyaan'];?>
                                     </label>
                                     <div class="">
