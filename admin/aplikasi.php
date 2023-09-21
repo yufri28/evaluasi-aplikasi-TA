@@ -515,16 +515,16 @@ Swal.fire({
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <span>Silakan klik tombol Copy untuk menyalin link aplikasi
-                        <strong><?=$aplikasi['nama_aplikasi'];?></strong> atau copy link berikut
+                    <span>Silahkan salin link aplikasi
+                        <strong><?=$aplikasi['nama_aplikasi'];?></strong> berikut untuk dibagikan kepada responden!
                         <pre><code class="language-python"><?=BASE_URL.'form-evaluasi.php?app='.base64_encode($aplikasi['id_aplikasi']);?></code></pre>
                     </span>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-sm btn-primary copy-button"
-                    data-id="<?=$aplikasi['id_aplikasi'];?>">Copy</button>
+                <!-- <button type="button" class="btn btn-sm btn-primary copy-button"
+                    data-id="<?=$aplikasi['id_aplikasi'];?>">Copy</button> -->
             </div>
         </div>
     </div>
