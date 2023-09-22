@@ -24,18 +24,25 @@ if(isset($_POST['jawab']))
     // $bobot_ganjil = 0;
     // $bobot_genap = 0;
     $jawaban = array_values($_POST);
-    // $hasil = 0;
+    
+    $hasil = 0;
+    // $nilai_jumlah = 0;
+    // $jumlah = 0;
     // for ($i=0; $i < count($jawaban)-1; $i++) {
+    //     if($i != 0 || $i < 11){
     //         if($i % 2 != 0){
     //             $hasil += (5 - intval($jawaban[$i]));
     //         }elseif($i % 2 == 0){
-               
     //             $hasil += (intval($jawaban[$i]) - 1);
     //         }
     //     }
-        
-    //     echo ($hasil * 2.5);
-
+    // }
+    // for ($i=0; $i < count($jawaban)-1; $i++) {
+    //     if($i != 0 || $i < 11){
+    //         $hasil += (intval($jawaban[$i]));
+    //     }
+    // }
+    // $jumlah = $hasil;
     $nama_responden = $jawaban[0];
     $q1 = $jawaban[1];
     $q2 = $jawaban[2];
@@ -47,8 +54,9 @@ if(isset($_POST['jawab']))
     $q8 = $jawaban[8];
     $q9 = $jawaban[9];
     $q10 = $jawaban[10];
-   
-    $insert = $koneksi->query("INSERT INTO skor_asli (id_skor_asli,nama_responden,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,f_id_app) VALUES(0,'$nama_responden','$q1','$q2','$q3','$q4','$q5','$q6','$q7','$q8','$q9','$q10','$id_app')");
+    $jumlah = ($q1+$q2+$q3+$q4+$q5+$q6+$q7+$q8+$q9+$q10);
+    $nilai_jumlah = ($jumlah * 2.5);
+    $insert = $koneksi->query("INSERT INTO skor_asli (id_skor_asli,nama_responden,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,jumlah,nilai_jumlah,f_id_app) VALUES(0,'$nama_responden','$q1','$q2','$q3','$q4','$q5','$q6','$q7','$q8','$q9','$q10','$jumlah','$nilai_jumlah','$id_app')");
     
     if($insert)
     {
@@ -196,10 +204,10 @@ if(isset($_POST['jawab']))
                                                 Sangat setuju
                                             </label>
                                         </div>
-                                        <input type="hidden" name="f_id_app" value="<?=base64_decode($_GET['app']);?>">
                                     </div>
                                 </div>
                                 <?php endforeach;?>
+                                <input type="hidden" name="f_id_app" value="<?=base64_decode($_GET['app']);?>">
                                 <div class="d-flex justify-content-between">
                                     <a href="./index.php" class="btn btn-danger">Kembali</a>
                                     <button type="submit" name="jawab" class="btn btn-primary">Kirim</button>

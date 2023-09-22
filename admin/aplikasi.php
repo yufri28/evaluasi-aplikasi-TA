@@ -3,11 +3,17 @@
  require './functions/aplikasi.php';
 $id_auth = $_SESSION['id_auth'];
  
-// begin::CRUD data aplikasi
-// begin::read
-$dataAplikasi = $Aplikasi->get_data_aplikasi($id_auth);
-// end::read
-$num_rows_app = $Aplikasi->count_num_rows_app();
+
+$dataAplikasi = array();
+
+$num_rows_app = 0;
+if($_SESSION['level'] == 0){
+    $num_rows_app = $Aplikasi->num_rows_app_admin();
+    $dataAplikasi =$Aplikasi->get_data_aplikasi();
+}else{
+    $num_rows_app = $Aplikasi->count_num_rows_app($id_auth);
+    $dataAplikasi =$Aplikasi->get_data_aplikasi_byId($id_auth);
+}
 // begin::create, update and delete
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
@@ -187,6 +193,7 @@ Swal.fire({
                             <span class="text-muted mt-1 fw-bold fs-7"><?= $num_rows_app;?>
                                 aplikasi</span>
                         </h3>
+                        <?php if($_SESSION['level'] == 1):?>
                         <div class="card-toolbar">
                             <!--begin::Menu-->
                             <button type="button" data-bs-toggle="modal" data-bs-target="#addAplikasi"
@@ -202,97 +209,9 @@ Swal.fire({
                                 </span>
                                 <!--end::Svg Icon-->
                             </button>
-                            <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
-                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
-                                <span class="svg-icon svg-icon-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
-                                        viewBox="0 0 24 24">
-                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <rect x="5" y="5" width="5" height="5" rx="1" fill="#000000" />
-                                            <rect x="14" y="5" width="5" height="5" rx="1" fill="#000000"
-                                                opacity="0.3" />
-                                            <rect x="5" y="14" width="5" height="5" rx="1" fill="#000000"
-                                                opacity="0.3" />
-                                            <rect x="14" y="14" width="5" height="5" rx="1" fill="#000000"
-                                                opacity="0.3" />
-                                        </g>
-                                    </svg>
-                                </span>
-                                <!--end::Svg Icon-->
-                            </button>
-                            <!--begin::Menu 2-->
-                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px"
-                                data-kt-menu="true">
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-3">
-                                    <div class="menu-content fs-6 text-dark fw-bolder px-3 py-4">
-                                        Quick Actions
-                                    </div>
-                                </div>
-                                <!--end::Menu item-->
-                                <!--begin::Menu separator-->
-                                <div class="separator mb-3 opacity-75"></div>
-                                <!--end::Menu separator-->
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3">New Ticket</a>
-                                </div>
-                                <!--end::Menu item-->
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3">New Customer</a>
-                                </div>
-                                <!--end::Menu item-->
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-3" data-kt-menu-trigger="hover"
-                                    data-kt-menu-placement="right-start">
-                                    <!--begin::Menu item-->
-                                    <a href="#" class="menu-link px-3">
-                                        <span class="menu-title">New Group</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <!--end::Menu item-->
-                                    <!--begin::Menu sub-->
-                                    <div class="menu-sub menu-sub-dropdown w-175px py-4">
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3">Admin Group</a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3">Staff Group</a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3">Member Group</a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                    </div>
-                                    <!--end::Menu sub-->
-                                </div>
-                                <!--end::Menu item-->
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-3">
-                                    <a href="#" class="menu-link px-3">New Contact</a>
-                                </div>
-                                <!--end::Menu item-->
-                                <!--begin::Menu separator-->
-                                <div class="separator mt-3 opacity-75"></div>
-                                <!--end::Menu separator-->
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-3">
-                                    <div class="menu-content px-3 py-3">
-                                        <a class="btn btn-primary btn-sm px-4" href="#">Generate Reports</a>
-                                    </div>
-                                </div>
-                                <!--end::Menu item-->
-                            </div>
-                            <!--end::Menu 2-->
                             <!--end::Menu-->
                         </div>
+                        <?php endif;?>
                     </div>
                     <!--end::Header-->
                     <!--begin::Body-->
@@ -300,7 +219,8 @@ Swal.fire({
                         <!--begin::Table container-->
                         <div class="table-responsive">
                             <!--begin::Table-->
-                            <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                            <table id="myTable"
+                                class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-5">
                                 <!--begin::Table head-->
                                 <thead>
                                     <tr class="border-0">
@@ -337,17 +257,10 @@ Swal.fire({
                                                 <!--end::Name-->
                                             </div>
                                         </td>
-                                        <!-- <td class="text-end">
-                                            <a href="#"
-                                                class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">$560,000</a>
-                                            <span class="text-muted fw-bold text-muted d-block fs-7">Paid</span>
-                                        </td> -->
                                         <td class="text-muted fw-bold">
                                             <?= substr($aplikasi['deskripsi'], 0, 50).'...';?>
                                         </td>
-                                        <!-- <td class="text-end">
-                                            <span class="badge badge-light-success">Approved</span>
-                                        </td> -->
+                                        <?php if($_SESSION['level'] == 1):?>
                                         <td class="text-end">
                                             <button type="button" data-bs-toggle="modal"
                                                 data-bs-target="#copyLink<?=$aplikasi['id_aplikasi'];?>"
@@ -402,6 +315,7 @@ Swal.fire({
                                                 <!--end::Svg Icon-->
                                             </button>
                                         </td>
+                                        <?php endif;?>
                                     </tr>
                                     <?php endforeach;?>
                                 </tbody>
@@ -424,9 +338,6 @@ Swal.fire({
 </div>
 <!--end::Root-->
 <!--begin::Drawers-->
-<!--begin::Activities drawer-->
-<?php require './templates/drawers.php';?>
-<!--end::Chat drawer-->
 <!--end::Drawers-->
 <!--begin::Modals-->
 <!--begin::Modal - Create App-->

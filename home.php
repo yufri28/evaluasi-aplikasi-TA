@@ -13,7 +13,7 @@ require_once './config.php';
 <html>
 
 <head>
-    <title>SPK Beasiswa</title>
+    <title>EVALUASI APLIKASI</title>
     <style>
     .navbar-transparent {
         background-color: hsl(0, 0%, 96%);
@@ -38,23 +38,28 @@ require_once './config.php';
 
     <section class="">
         <!-- Section: Design Block -->
-        <nav class="navbar fixed-top navbar-transparent">
+        <nav class="navbar fixed-top bg-dark" data-bs-theme="dark">
             <div class="container-fluid d-flex justify-content-end">
                 <a href="./auth/login.php" class="btn btn-outline-secondary mt-3 me-md-5">LOGIN</a>
             </div>
         </nav>
-        <hr>
-        <hr class="navbar-transparent">
+        <br>
+        <br>
+        <br class="navbar-transparent">
         <!-- Jumbotron -->
         <div class="text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
-            <div class="container d-flex" style="height:100vh;">
-                <div class="row gx-lg-5 align-items-center text-center" style=" width: 100%;">
-                    <div class="col-12 text-center mb-5 mb-lg-0">
-                        <h4 class="text-center" style="color: hsl(217, 10%, 50.8%)">
-                            SISTEM EVALUASI APLIKASI</i>
-                        </h4>
-
+            <div class="container d-flex">
+                <div class="row justify-content-center card-app xxl-lg-mt-5">
+                    <?php for ($i=0; $i < 10; $i++):?>
+                    <div class="card col-lg-4 m-2" style="width: 18rem;">
+                        <img src="./img/uploads/Screenshot (7).png" style="width: 288px; margin-left: -12px;"
+                            class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">Some quick example text to build on the card title and make up
+                                the bulk of the card's content.</p>
+                        </div>
                     </div>
+                    <?php endfor;?>
                 </div>
             </div>
         </div>

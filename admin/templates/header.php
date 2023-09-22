@@ -43,6 +43,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/dracula.min.css">
+
+    <!-- begin::Datatables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+    <!-- end::Datatables -->
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -96,7 +100,7 @@
                                 <span class="menu-icon me-0">
                                     <i class="bi bi-app fs-2"></i>
                                 </span>
-                                <span class="menu-title text-center">Tambah Aplikasi</span>
+                                <span class="menu-title text-center">Daftar Aplikasi</span>
                             </a>
                         </div>
                     </div>
@@ -226,7 +230,7 @@
                                                 <!--begin::Username-->
                                                 <div class="d-flex flex-column">
                                                     <div class="fw-bolder d-flex align-items-center fs-5">
-                                                        Max Smith
+                                                        <?= $_SESSION['username']; ?>
                                                         <span
                                                             class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">.</span>
                                                     </div>

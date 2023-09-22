@@ -50,7 +50,19 @@ var hostUrl = "./assets/";
   <script src="./assets/js/custom/modals/upgrade-plan.js"></script>
   <!-- Script untuk highlight.js dari CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+  <!-- begin:Datables -->
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <!-- end:Datables -->
 
+  <!-- begin:DataTable -->
+  <script>
+let table = new DataTable('#myTable', {
+    "scrollX": true,
+    "scrollY": true,
+});
+  </script>
+  <!-- end:DataTable -->
   <!-- Inisialisasi highlight.js -->
   <script>
 document.addEventListener("DOMContentLoaded", function() {

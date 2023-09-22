@@ -8,14 +8,58 @@ class Aplikasi
         $this->db = connectDatabase();
     }
 
-    public function get_data_aplikasi($id_auth)
+    public function get_hasil_aplikasi($id_auth)
+    {
+        return $this->db->query("SELECT 
+                                a.id_aplikasi,
+                                a.nama_aplikasi,	
+                                a.deskripsi,	
+                                a.f_id_auth,	
+                                a.gambar, 
+                                COUNT(sa.id_skor_asli) AS jumlah_responden, 
+                                AVG(sa.nilai_jumlah) AS nilai_jumlah 
+                                FROM `aplikasi` a JOIN `skor_asli` sa 
+                                ON sa.f_id_app=a.id_aplikasi  
+                                WHERE f_id_auth='$id_auth' GROUP BY sa.f_id_app");
+    }
+
+    public function count_aplikasi($id_auth)
+    {
+         $data = $this->db->query("SELECT COUNT(id_aplikasi) AS jumlah_aplikasi FROM aplikasi WHERE f_id_auth='$id_auth'")->fetch_assoc();
+         return $data['jumlah_aplikasi'];
+    }
+
+    public function get_data_aplikasi()
+    {
+        return $this->db->query("SELECT * FROM aplikasi");
+    }
+
+    public function get_data_aplikasi_byId($id_auth)
     {
         return $this->db->query("SELECT * FROM aplikasi WHERE f_id_auth='$id_auth'");
     }
 
-    public function count_num_rows_app()
+    public function num_rows_user()
     {
-        $data = mysqli_fetch_assoc($this->db->query("SELECT COUNT(*) AS jumlah_rows_app FROM aplikasi"));
+        $data = $this->db->query("SELECT COUNT(*) AS jumlah_user FROM auth")->fetch_assoc();
+        return $data['jumlah_user'];
+    }
+
+    public function num_rows_responden($id_auth)
+    {
+        $data = $this->db->query("SELECT COUNT(*) AS jumlah_user FROM skor_asli sa JOIN aplikasi a ON a.id_aplikasi=sa.f_id_app JOIN auth au ON au.id_auth=a.f_id_auth WHERE au.id_auth='$id_auth'")->fetch_assoc();
+        return $data['jumlah_user'];
+    }
+    
+    public function num_rows_app_admin()
+    {
+        $data = $this->db->query("SELECT COUNT(*) AS jumlah_rows_app FROM aplikasi")->fetch_assoc();
+        return $data['jumlah_rows_app'];
+    }
+    
+    public function count_num_rows_app($id_auth)
+    {
+        $data = $this->db->query("SELECT COUNT(*) AS jumlah_rows_app FROM aplikasi WHERE f_id_auth='$id_auth'")->fetch_assoc();
         return $data['jumlah_rows_app'];
     }
 

@@ -1,8 +1,6 @@
 <?php 
 session_start();
-if(isset($_SESSION['login']) && $_SESSION['login'] == true && ($_SESSION['level'] == "sma" || $_SESSION['level'] == "pt")){
-    header("Location: ./user/index.php");
-}else if(isset($_SESSION['login']) && $_SESSION['login'] == true && $_SESSION['level'] == 1){
+if(isset($_SESSION['login']) && $_SESSION['login'] == true){
     header("Location: ./admin/index.php");
 }
 require_once './config.php';
@@ -10,10 +8,10 @@ require_once './config.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST["username"];
   $password = $_POST["password"];
-  $jenjang = $_POST["jenjang"];
+  $level = 1;
   $password_hash = password_hash($password, PASSWORD_BCRYPT);
   // Mengecek apakah username dan password sesuai
-  $sql = "INSERT INTO login_pelamar (id_login,username,password,jenjang) VALUES (null,'$username','$password_hash','$jenjang')";
+  $sql = "INSERT INTO auth (id_auth,username,password,level) VALUES (0,'$username','$password_hash','$level')";
   $result = $koneksi->query($sql);
   if ($result) {
     echo "<script>alert('Daftar berhasil!');</script>";
@@ -77,16 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 class="text-danger">*</small></label>
                                         <input type="password" id="password-konfirmation" placeholder="******" required
                                             name="password-konfirmation" class="form-control" />
-                                    </div>
-                                    <div class="form-outline mb-4">
-                                        <label class="form-label" for="jenjang">Jenjang <small
-                                                class="text-danger">*</small></label>
-                                        <select class="form-select" name="jenjang" required
-                                            aria-label="Default select example">
-                                            <option value="">-- Pilih Jenjang --</option>
-                                            <option value="sma">SMA/SMK Sederajat</option>
-                                            <option value="pt">Perguruan Tinggi</option>
-                                        </select>
                                     </div>
                                     <!-- Submit button -->
                                     <button type="submit" name="daftar" class="btn col-12 btn-primary btn-block mb-3">

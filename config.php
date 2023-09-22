@@ -1,9 +1,4 @@
 <?php
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $database = "spk_pem_kost";
-
 // // Membuat koneksi
 // $conn = new mysqli($servername, $username, $password, $database);
 

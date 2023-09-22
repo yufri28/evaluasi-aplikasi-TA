@@ -1,4 +1,40 @@
 <?php require './templates/header.php';?>
+<?php 
+
+require './functions/aplikasi.php';
+$id_auth = $_SESSION['id_auth'];
+ 
+
+$dataHasilAplikasi = $Aplikasi->get_hasil_aplikasi($id_auth);
+$jumlahAplikasi = $Aplikasi->count_aplikasi($id_auth);
+$num_rows_app = 0;
+$num_rows_user = 0;
+if($_SESSION['level'] == 0){
+    $num_rows_app = $Aplikasi->num_rows_app_admin();
+    $num_rows_user = $Aplikasi->num_rows_user();
+}else{
+    $num_rows_app = $Aplikasi->count_num_rows_app($id_auth);
+    $num_rows_user = $Aplikasi->num_rows_responden($id_auth);
+}
+function filterKategori($nilai){
+    $kategori = "";
+    switch ($nilai) {
+        case $nilai > 70:
+            $kategori = "badge-light-success";
+            break;
+        case $nilai >= 50 && $nilai <= 70:
+                $kategori = "badge-light-warning";
+                break;
+        case $nilai < 50:
+                $kategori = "badge-light-danger";
+            break;
+        default:
+    }
+    
+    return $kategori;
+}
+
+?>
 <!--begin::Root-->
 <div class="d-flex flex-column flex-root">
     <!--begin::Page-->
@@ -8,7 +44,7 @@
         <div id="kt_content_container" class="container-xxl">
             <!--begin::Row-->
             <div class="row g-5 g-xl-8">
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                     <!--begin::Statistics Widget 5-->
                     <a href="#" class="card bg-danger hoverable card-xl-stretch mb-xl-8">
                         <!--begin::Body-->
@@ -23,7 +59,7 @@
                             </span>
                             <!--end::Svg Icon-->
                             <div class="text-white fw-bolder fs-2 mb-2 mt-5">
-                                80
+                                <?=$jumlahAplikasi;?>
                             </div>
                             <div class="fw-bold text-white">
                                 Jumlah Aplikasi
@@ -33,7 +69,7 @@
                     </a>
                     <!--end::Statistics Widget 5-->
                 </div>
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                     <!--begin::Statistics Widget 5-->
                     <a href="#" class="card bg-primary hoverable card-xl-stretch mb-xl-8">
                         <!--begin::Body-->
@@ -48,39 +84,10 @@
                             </span>
                             <!--end::Svg Icon-->
                             <div class="text-white fw-bolder fs-2 mb-2 mt-5">
-                                45
+                                <?= $num_rows_user ;?>
                             </div>
                             <div class="fw-bold text-white">
-                                Jumlah Pengguna
-                            </div>
-                        </div>
-                        <!--end::Body-->
-                    </a>
-                    <!--end::Statistics Widget 5-->
-                </div>
-                <div class="col-xl-4">
-                    <!--begin::Statistics Widget 5-->
-                    <a href="#" class="card bg-success hoverable card-xl-stretch mb-5 mb-xl-8">
-                        <!--begin::Body-->
-                        <div class="card-body">
-                            <!--begin::Svg Icon | path: icons/duotune/graphs/gra005.svg-->
-                            <span class="svg-icon svg-icon-white svg-icon-3x ms-n1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none">
-                                    <path opacity="0.3"
-                                        d="M14 12V21H10V12C10 11.4 10.4 11 11 11H13C13.6 11 14 11.4 14 12ZM7 2H5C4.4 2 4 2.4 4 3V21H8V3C8 2.4 7.6 2 7 2Z"
-                                        fill="black" />
-                                    <path
-                                        d="M21 20H20V16C20 15.4 19.6 15 19 15H17C16.4 15 16 15.4 16 16V20H3C2.4 20 2 20.4 2 21C2 21.6 2.4 22 3 22H21C21.6 22 22 21.6 22 21C22 20.4 21.6 20 21 20Z"
-                                        fill="black" />
-                                </svg>
-                            </span>
-                            <!--end::Svg Icon-->
-                            <div class="text-white fw-bolder fs-2 mb-2 mt-5">
-                                Sales Stats
-                            </div>
-                            <div class="fw-bold text-white">
-                                50% Increased for FY20
+                                Jumlah <?= $_SESSION['level'] == 0 ? 'Pengguna':'Responden';?>
                             </div>
                         </div>
                         <!--end::Body-->
@@ -89,6 +96,74 @@
                 </div>
             </div>
             <!--end::Row-->
+            <?php if($_SESSION['level'] == 1): ;?>
+            <div class="card">
+                <!--begin::Body-->
+                <div class="card-body pt-3">
+                    <div class="d-flex justify-content-end">
+                        <h5 class="badge badge-light-success m-1">Acceptable</h5>
+                        <h5 class="badge badge-light-warning m-1">Marginal</h5>
+                        <h5 class="badge badge-light-danger m-1">Not Acceptable</h5>
+                    </div>
+                    <!--begin::Table container-->
+                    <div class="table-responsive">
+                        <!--begin::Table-->
+                        <table id="myTable" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                            <!--begin::Table head-->
+                            <thead>
+                                <tr class="border-0">
+                                    <th class="p-0">No</th>
+                                    <th class="p-0">Gambar | Nama Aplikasi</th>
+                                    <th class="p-0 min-w-150px">Jumlah Responden</th>
+                                    <th class="p-0 min-w-150px">Skor Akhir</th>
+                                </tr>
+                            </thead>
+                            <!--end::Table head-->
+                            <!--begin::Table body-->
+                            <tbody>
+                                <?php 
+                                         $i = 0;
+                                        ?>
+                                <?php foreach ($dataHasilAplikasi as $key => $hasil):?>
+                                <tr>
+                                    <td class="text-muted fw-bold">
+                                        <?= ++$i;?>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <!--begin::Avatar-->
+                                            <div class="symbol symbol-45px me-5">
+                                                <img alt="Pic" src="../img/uploads/<?=$hasil['gambar'];?>" />
+                                            </div>
+                                            <!--end::Avatar-->
+                                            <!--begin::Name-->
+                                            <div class="d-flex justify-content-start flex-column">
+                                                <a href="#"
+                                                    class="text-dark fw-bolder text-hover-primary mb-1 fs-6"><?=$hasil['nama_aplikasi'];?></a>
+                                            </div>
+                                            <!--end::Name-->
+                                        </div>
+                                    </td>
+                                    <td class="text-start">
+                                        <span
+                                            class="badge <?=filterKategori(round($hasil['nilai_jumlah'],2));?>"><?= $hasil['jumlah_responden'];?></span>
+                                    </td>
+                                    <td class="text-start">
+                                        <span
+                                            class="badge <?=filterKategori(round($hasil['nilai_jumlah'],2));?>"><?= round($hasil['nilai_jumlah'],2);?></span>
+                                    </td>
+                                </tr>
+                                <?php endforeach;?>
+                            </tbody>
+                            <!--end::Table body-->
+                        </table>
+                        <!--end::Table-->
+                    </div>
+                    <!--end::Table container-->
+                </div>
+                <!--begin::Body-->
+            </div>
+            <?php endif;?>
         </div>
         <!--end::Container-->
     </div>
@@ -97,13 +172,6 @@
 </div>
 <!--end::Root-->
 <!--begin::Drawers-->
-<!--begin::Activities drawer-->
-<?php 
-
-// require './templates/drawers.php';
-
-?>
-<!--end::Chat drawer-->
 <!--end::Drawers-->
 <!--begin::Modals-->
 <!--begin::Modal - Create App-->
