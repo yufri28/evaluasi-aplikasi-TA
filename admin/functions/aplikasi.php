@@ -107,9 +107,29 @@ class Aplikasi
            return $_SESSION['error'] = 'Data gagal didelete!';
         }
     }
+    
 
+    public function get_responden($id_aplikasi)
+    {
+        return $this->db->query("SELECT * FROM skor_asli sa JOIN aplikasi a ON a.id_aplikasi=sa.f_id_app WHERE sa.f_id_app='$id_aplikasi'");
+    }
+    public function num_rows_responden_byApp($id_aplikasi)
+    {
+        $data = $this->db->query("SELECT COUNT(*) AS jumlah_user FROM skor_asli WHERE f_id_app='$id_aplikasi'")->fetch_assoc();
+        return $data['jumlah_user'];
+    }
 
-
+    public function delete_data_responden($id_skor_asli)
+    {
+        $delete_responden = $this->db->query("DELETE FROM skor_asli WHERE id_skor_asli='$id_skor_asli'");
+     
+        if($delete_responden)
+        {
+           return $_SESSION['success'] = 'Data berhasil didelete!';
+        }else{
+           return $_SESSION['error'] = 'Data gagal didelete!';
+        }
+    }
 }
 
 

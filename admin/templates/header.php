@@ -94,7 +94,7 @@
                     <div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold"
                         id="#kt_aside_menu" data-kt-menu="true">
                         <div class="menu-item py-2">
-                            <a class="menu-link <?= $segments[2] == 'aplikasi.php' ? 'active':''; ?> menu-center"
+                            <a class="menu-link <?= $segments[2] == 'aplikasi.php' || str_contains($segments[2], 'daftar-responden.php') == 'daftar-responden.php' ? 'active':''; ?> menu-center"
                                 href="./aplikasi.php" data-bs-trigger="hover" data-bs-dismiss="click"
                                 data-bs-placement="right">
                                 <span class="menu-icon me-0">

@@ -209,7 +209,7 @@ if(isset($_POST['jawab']))
                                 <?php endforeach;?>
                                 <input type="hidden" name="f_id_app" value="<?=base64_decode($_GET['app']);?>">
                                 <div class="d-flex justify-content-between">
-                                    <a href="./index.php" class="btn btn-danger">Kembali</a>
+                                    <a href="./index.php" class="btn btn-danger">Beranda</a>
                                     <button type="submit" name="jawab" class="btn btn-primary">Kirim</button>
                                 </div>
                             </form>

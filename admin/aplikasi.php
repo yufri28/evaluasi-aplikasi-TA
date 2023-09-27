@@ -12,7 +12,7 @@ if($_SESSION['level'] == 0){
     $dataAplikasi =$Aplikasi->get_data_aplikasi();
 }else{
     $num_rows_app = $Aplikasi->count_num_rows_app($id_auth);
-    $dataAplikasi =$Aplikasi->get_data_aplikasi_byId($id_auth);
+    $dataAplikasi = $Aplikasi->get_data_aplikasi_byId($id_auth);
 }
 // begin::create, update and delete
 if($_SERVER["REQUEST_METHOD"] == "POST")
@@ -262,6 +262,21 @@ Swal.fire({
                                         </td>
                                         <?php if($_SESSION['level'] == 1):?>
                                         <td class="text-end">
+                                            <a href="daftar-responden.php?app=<?=base64_encode($aplikasi['id_aplikasi']);?>"
+                                                class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
+                                                title="Lihat Responden">
+                                                <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
+                                                <span class="svg-icon svg-icon-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="black" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                        <path opacity="0.3"
+                                                            d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                        <path opacity="0.3"
+                                                            d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                    </svg>
+                                                </span>
+                                                <!--end::Svg Icon-->
+                                            </a>
                                             <button type="button" data-bs-toggle="modal"
                                                 data-bs-target="#copyLink<?=$aplikasi['id_aplikasi'];?>"
                                                 class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
@@ -421,7 +436,7 @@ Swal.fire({
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Aplikasi</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Aplikasi</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
