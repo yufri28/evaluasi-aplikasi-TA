@@ -6,13 +6,14 @@ $id_auth = $_SESSION['id_auth'];
  
 
 $dataHasilAplikasi = $Aplikasi->get_hasil_aplikasi($id_auth);
-$jumlahAplikasi = $Aplikasi->count_aplikasi($id_auth);
 $num_rows_app = 0;
 $num_rows_user = 0;
 if($_SESSION['level'] == 0){
+    $jumlahAplikasi = $Aplikasi->count_all_aplikasi();
     $num_rows_app = $Aplikasi->num_rows_app_admin();
     $num_rows_user = $Aplikasi->num_rows_user();
 }else{
+    $jumlahAplikasi = $Aplikasi->count_aplikasi($id_auth);
     $num_rows_app = $Aplikasi->count_num_rows_app($id_auth);
     $num_rows_user = $Aplikasi->num_rows_responden($id_auth);
 }
@@ -115,7 +116,7 @@ function filterKategori($nilai){
                                     <th class="p-0">No</th>
                                     <th class="p-0">Gambar | Nama Aplikasi</th>
                                     <th class="p-0 min-w-150px">Jumlah Responden</th>
-                                    <th class="p-0 min-w-150px">Skor Akhir</th>
+                                    <th class="p-0 min-w-150px">Skor Akhir/Rata-rata</th>
                                 </tr>
                             </thead>
                             <!--end::Table head-->
@@ -149,8 +150,10 @@ function filterKategori($nilai){
                                             class="badge <?=filterKategori(round($hasil['nilai_jumlah'],2));?>"><?= $hasil['jumlah_responden'];?></span>
                                     </td>
                                     <td class="text-start">
-                                        <span
-                                            class="badge <?=filterKategori(round($hasil['nilai_jumlah'],2));?>"><?= round($hasil['nilai_jumlah'],2);?></span>
+                                        (<?=$hasil['jumlah'];?>
+                                        / <?=$hasil['jumlah_responden'];?>) * 100% = <span
+                                            class="badge <?=filterKategori(round($hasil['nilai_jumlah'],2));?>">
+                                            <?= round($hasil['nilai_jumlah'],2);?></span>
                                     </td>
                                 </tr>
                                 <?php endforeach;?>

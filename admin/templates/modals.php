@@ -26,6 +26,43 @@
                         <input type="file" required name="gambar" class="form-control form-control-sm" id="gambar">
                     </div>
                 </div>
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Field FORM</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="nama" name="nama">
+                            <label class="form-check-label" for="nama">
+                                Nama
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="email" name="email">
+                            <label class="form-check-label" for="email">
+                                Email
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="prodi" name="prodi">
+                            <label class="form-check-label" for="prodi">
+                                Prodi
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="jk" name="jk">
+                            <label class="form-check-label" for="jk">
+                                Jenis Kelamin
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="usia" name="usia">
+                            <label class="form-check-label" for="usia">
+                                Usia
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" name="save_app" class="btn btn-sm btn-primary">Save</button>

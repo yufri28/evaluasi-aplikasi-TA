@@ -97,18 +97,17 @@ function filterKategori($nilai){
         <div class="text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
             <div class="wrapper">
                 <div class="d-flex justify-content-center">
-                    <div class="col-lg-8 mx-lg-5 mt-lg-5 p-5">
-                        <!-- <img src="./img/uploads/Screenshot (7).png" style="border-radius:1em;" class=" card-img-top"
-                            alt="Gambar "> -->
-                        <div class="card text-bg-dark banner" data-aos="flip-right">
-                            <img src="./img/uploads/<?=$dataHighSkor['gambar'];?>" class="card-img" alt="...">
+                    <div class="col-lg-8 mx-lg-5 mt-lg-5 p-5 d-flex justify-content-center">
+                        <div class="card text-bg-dark banner" data-aos="flip-right" style="width: 700px; height:700px;">
+                            <img src="./img/uploads/<?=$dataHighSkor['gambar'];?>" class="card-img"
+                                alt="<?=$dataHighSkor['gambar'];?>">
                             <div class="card-img-overlay">
                                 <h1 class="card-title"><?=$dataHighSkor['nama_aplikasi'];?></h1>
                                 <p class="card-text text-border fw-bolder">Uploader: <?=$dataHighSkor['username'];?></p>
                                 <p class="card-text text-border fw-bold"><?=$dataHighSkor['jumlah_responden'];?>
                                     Reponden</p>
                                 <h2 class="card-text bg<?=filterKategori(round($dataHighSkor['nilai_jumlah'],2));?> p-3"
-                                    style="border-radius: 6px;">Skor 89</h2>
+                                    style="border-radius: 6px;">Skor : <?=round($dataHighSkor['nilai_jumlah'],2);?></h2>
                             </div>
                         </div>
                     </div>

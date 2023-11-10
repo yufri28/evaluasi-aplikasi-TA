@@ -16,6 +16,7 @@ class Aplikasi
                                 a.deskripsi,	
                                 a.f_id_auth,	
                                 a.gambar, 
+                                SUM(sa.nilai_jumlah) AS jumlah, 
                                 COUNT(sa.id_skor_asli) AS jumlah_responden, 
                                 AVG(sa.nilai_jumlah) AS nilai_jumlah 
                                 FROM `aplikasi` a JOIN `skor_asli` sa 
@@ -26,6 +27,12 @@ class Aplikasi
     public function count_aplikasi($id_auth)
     {
          $data = $this->db->query("SELECT COUNT(id_aplikasi) AS jumlah_aplikasi FROM aplikasi WHERE f_id_auth='$id_auth'")->fetch_assoc();
+         return $data['jumlah_aplikasi'];
+    }
+    
+    public function count_all_aplikasi()
+    {
+         $data = $this->db->query("SELECT COUNT(id_aplikasi) AS jumlah_aplikasi FROM aplikasi")->fetch_assoc();
          return $data['jumlah_aplikasi'];
     }
 
@@ -70,11 +77,24 @@ class Aplikasi
         $deskripsi = $data['deskripsi'];
         $id_auth = $data['id_auth'];
         $gambar = $data['gambar'];
+        $nama = $data['nama'];
+        $email = $data['email'];
+        $prodi = $data['prodi'];
+        $jk = $data['jk'];
+        $usia = $data['usia'];
+        $f_id_app = 0;
+
         $insert_app = $this->db->query("INSERT INTO aplikasi(id_aplikasi,nama_aplikasi,deskripsi,f_id_auth,gambar) VALUES (0,'$nama_aplikasi','$deskripsi','$id_auth','$gambar')");
-     
+        sleep(2);
         if($insert_app)
         {
-           return $_SESSION['success'] = 'Data berhasil disimpan!';
+           $id_app = $this->db->query("SELECT id_aplikasi FROM aplikasi ORDER BY id_aplikasi DESC LIMIT 1")->fetch_assoc();
+           $f_id_app = $id_app['id_aplikasi'];
+           $simpan_form = $this->db->query("INSERT INTO form(nama,email,prodi,jk,usia,f_id_app) VALUES('$nama','$email','$prodi','$jk','$usia','$f_id_app')");
+           
+           if($simpan_form){
+               return $_SESSION['success'] = 'Data berhasil disimpan!';
+           }
         }else{
            return $_SESSION['error'] = 'Data gagal disimpan!';
         }
@@ -87,9 +107,18 @@ class Aplikasi
         $deskripsi = $data['deskripsi'];
         $id_auth = $data['id_auth'];
         $gambar = $data['gambar'];
+        $nama = $data['nama'];
+        $email = $data['email'];
+        $prodi = $data['prodi'];
+        $jk = $data['jk'];
+        $usia = $data['usia'];
+        $id_form = $data['id_form'];
+
+
         $update_app = $this->db->query("UPDATE aplikasi  SET nama_aplikasi='$nama_aplikasi', deskripsi='$deskripsi',f_id_auth='$id_auth',gambar='$gambar' WHERE id_aplikasi='$id_aplikasi'");
-     
-        if($update_app)
+        $update_form = $this->db->query("UPDATE form  SET nama='$nama', email='$email',prodi='$prodi',jk='$jk',usia='$usia',f_id_app='$id_aplikasi' WHERE id_form='$id_form'");
+        
+        if($update_app && $update_form)
         {
            return $_SESSION['success'] = 'Data berhasil diupdate!';
         }else{
@@ -99,19 +128,22 @@ class Aplikasi
     public function delete_data_aplikasi($id_aplikasi)
     {
         $delete_app = $this->db->query("DELETE FROM aplikasi WHERE id_aplikasi='$id_aplikasi'");
-     
         if($delete_app)
         {
-           return $_SESSION['success'] = 'Data berhasil didelete!';
+            return $_SESSION['success'] = 'Data berhasil didelete!';
         }else{
            return $_SESSION['error'] = 'Data gagal didelete!';
         }
     }
     
-
     public function get_responden($id_aplikasi)
     {
         return $this->db->query("SELECT * FROM skor_asli sa JOIN aplikasi a ON a.id_aplikasi=sa.f_id_app WHERE sa.f_id_app='$id_aplikasi'");
+    }
+
+    public function get_form($id_aplikasi)
+    {
+        return $this->db->query("SELECT * FROM form f JOIN aplikasi a ON a.id_aplikasi=f.f_id_app WHERE f.f_id_app='$id_aplikasi'")->fetch_assoc();
     }
     public function num_rows_responden_byApp($id_aplikasi)
     {
@@ -122,7 +154,6 @@ class Aplikasi
     public function delete_data_responden($id_skor_asli)
     {
         $delete_responden = $this->db->query("DELETE FROM skor_asli WHERE id_skor_asli='$id_skor_asli'");
-     
         if($delete_responden)
         {
            return $_SESSION['success'] = 'Data berhasil didelete!';

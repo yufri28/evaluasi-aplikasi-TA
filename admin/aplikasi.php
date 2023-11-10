@@ -5,8 +5,12 @@ $id_auth = $_SESSION['id_auth'];
  
 
 $dataAplikasi = array();
-
 $num_rows_app = 0;
+$nama = 0;
+$email = 0;
+$prodi = 0;
+$jk = 0;
+$usia = 0;
 if($_SESSION['level'] == 0){
     $num_rows_app = $Aplikasi->num_rows_app_admin();
     $dataAplikasi =$Aplikasi->get_data_aplikasi();
@@ -23,6 +27,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
        $nama_aplikasi = htmlspecialchars($_POST['nama_aplikasi']);
        $id_auth = htmlspecialchars($_POST['id_auth']);
        $deskripsi = htmlspecialchars($_POST['deskripsi']);
+       $nama = isset($_POST['nama']) ? htmlspecialchars($_POST['nama']) == 'on'?1:0:0;
+       $email = isset($_POST['email']) ? htmlspecialchars($_POST['email']) == 'on'?1:0:0;
+       $prodi = isset($_POST['prodi']) ? htmlspecialchars($_POST['prodi']) == 'on'?1:0:0;
+       $jk = isset($_POST['jk']) ? htmlspecialchars($_POST['jk']) == 'on'?1:0:0;
+       $usia = isset($_POST['usia']) ? htmlspecialchars($_POST['usia']) == 'on'?1:0:0;
 
         // Pastikan ada file gambar yang diunggah
         if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
@@ -55,6 +64,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     'deskripsi' => $deskripsi,
                     'id_auth' => $id_auth,
                     'gambar' => $namaFile,
+                    'nama' => $nama,
+                    'email' => $email,
+                    'prodi' => $prodi,
+                    'jk' => $jk,
+                    'usia' => $usia
                 ];
                 $Aplikasi->create_data_aplikasi($dataAplikasi);
             } else {
@@ -72,7 +86,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
        $nama_aplikasi = htmlspecialchars($_POST['nama_aplikasi']);
        $id_auth = htmlspecialchars($_POST['id_auth']);
        $deskripsi = htmlspecialchars($_POST['deskripsi']);
-
+       $id_form = htmlspecialchars($_POST['id_form']);
+       $nama = isset($_POST['nama']) ? htmlspecialchars($_POST['nama']) == 'on'?1:0:0;
+       $email = isset($_POST['email']) ? htmlspecialchars($_POST['email']) == 'on'?1:0:0;
+       $prodi = isset($_POST['prodi']) ? htmlspecialchars($_POST['prodi']) == 'on'?1:0:0;
+       $jk = isset($_POST['jk']) ? htmlspecialchars($_POST['jk']) == 'on'?1:0:0;
+       $usia = isset($_POST['usia']) ? htmlspecialchars($_POST['usia']) == 'on'?1:0:0;
+       
         // Pastikan ada file gambar yang diunggah
         if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
             $namaFile = $_FILES['gambar']['name'];
@@ -111,6 +131,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     'deskripsi' => $deskripsi,
                     'id_auth' => $id_auth,
                     'gambar' => $namaFile,
+                    'id_form' => $id_form,
+                    'nama' => $nama,
+                    'email' => $email,
+                    'prodi' => $prodi,
+                    'jk' => $jk,
+                    'usia' => $usia
                 ];
                 $Aplikasi->update_data_aplikasi($dataAplikasi);
             } else {
@@ -124,6 +150,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                 'deskripsi' => $deskripsi,
                 'id_auth' => $id_auth,
                 'gambar' => $namaFile,
+                'id_form' => $id_form,
+                'nama' => $nama,
+                'email' => $email,
+                'prodi' => $prodi,
+                'jk' => $jk,
+                'usia' => $usia
             ];
             $Aplikasi->update_data_aplikasi($dataAplikasi);
         }    
@@ -228,7 +260,9 @@ Swal.fire({
                                         <th class="p-0"></th>
                                         <th class="p-0 min-w-200px"></th>
                                         <!-- <th class="p-0 min-w-150px"></th> -->
+                                        <?php if($_SESSION['level'] == 1):?>
                                         <th class="p-0 min-w-100px text-end"></th>
+                                        <?php endif;?>
                                     </tr>
                                 </thead>
                                 <!--end::Table head-->
@@ -359,6 +393,16 @@ Swal.fire({
 <?php require './templates/modals.php';?>
 <!-- begin::edit modal aplikasi -->
 <?php foreach ($dataAplikasi as $key => $aplikasi):?>
+<?php 
+        $dataForm = $Aplikasi->get_form($aplikasi['id_aplikasi']);
+        if(!empty($dataForm)){
+            $nama = $dataForm['nama'];
+            $email = $dataForm['email'];
+            $prodi = $dataForm['prodi'];
+            $jk = $dataForm['jk'];
+            $usia = $dataForm['usia'];
+        }
+?>
 <div class="modal fade" id="editAplikasi<?=$aplikasi['id_aplikasi'];?>" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -371,6 +415,7 @@ Swal.fire({
                 <div class="modal-body">
                     <div class="mb-3">
                         <input type="hidden" name="id_auth" value="<?=$aplikasi['f_id_auth'];?>">
+                        <input type="hidden" name="id_form" value="<?=$dataForm['id_form'];?>">
                         <input type="hidden" name="id_aplikasi" value="<?=$aplikasi['id_aplikasi'];?>">
                         <label for="nama_aplikasi" class="form-label">Nama Aplikasi <small
                                 class="text-danger">*</small></label>
@@ -392,6 +437,48 @@ Swal.fire({
                             alt="<?=$aplikasi['nama_aplikasi'];?>">
                     </div>
                 </div>
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Field FORM</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" <?= $nama == 1?'checked':''?> type="checkbox" id="nama"
+                                name="nama">
+                            <label class="form-check-label" for="nama">
+                                Nama
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" <?= $email == 1?'checked':''?> type="checkbox" id="email"
+                                name="email">
+                            <label class="form-check-label" for="email">
+                                Email
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" <?= $prodi == 1?'checked':''?> type="checkbox" id="prodi"
+                                name="prodi">
+                            <label class="form-check-label" for="prodi">
+                                Prodi
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" <?= $jk == 1?'checked':''?> type="checkbox" id="jk"
+                                name="jk">
+                            <label class="form-check-label" for="jk">
+                                Jenis Kelamin
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" <?= $usia == 1?'checked':''?> type="checkbox" id="usia"
+                                name="usia">
+                            <label class="form-check-label" for="usia">
+                                Usia
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" name="update_app" class="btn btn-sm btn-primary">Save</button>
@@ -410,7 +497,7 @@ Swal.fire({
         <div class="modal-content">
             <form action="" method="post">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Aplikasi</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Aplikasi</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -436,7 +523,7 @@ Swal.fire({
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Aplikasi</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Link Aplikasi</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

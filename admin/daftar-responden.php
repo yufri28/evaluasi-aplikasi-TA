@@ -19,13 +19,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
 $jumlahResponden = 0;
 $dataResponden = array();
+$dataForm = array();
+$nama = 0;
+$email = 0;
+$prodi = 0;
+$jk = 0;
+$usia = 0;
 if(isset($_GET['app'])){
     $id_app = base64_decode($_GET['app']);
     $jumlahResponden = $Aplikasi->num_rows_responden_byApp($id_app);
     $dataResponden = $Aplikasi->get_responden($id_app);
+    $dataForm = $Aplikasi->get_form($id_app);
+    $nama = $dataForm['nama'];
+    $email = $dataForm['email'];
+    $prodi = $dataForm['prodi'];
+    $jk = $dataForm['jk'];
+    $usia = $dataForm['usia'];
 }else{
     echo "<script>window.location.href='.index.php'</script>";
 }
+
 ?>
 
 <!-- begin::Notification -->
@@ -112,7 +125,21 @@ Swal.fire({
                                 <thead>
                                     <tr class="border-0">
                                         <th class="p-0 text-muted fw-bold">No</th>
+                                        <?php if($nama == 1):?>
                                         <th class="p-0 text-muted fw-bold min-w-100px">Nama</th>
+                                        <?php endif;?>
+                                        <?php if($email == 1):?>
+                                        <th class="p-0 text-muted fw-bold min-w-100px">Email</th>
+                                        <?php endif;?>
+                                        <?php if($prodi == 1):?>
+                                        <th class="p-0 text-muted fw-bold min-w-100px">Prodi</th>
+                                        <?php endif;?>
+                                        <?php if($jk == 1):?>
+                                        <th class="p-0 text-muted fw-bold min-w-100px">Jenis Kelamin</th>
+                                        <?php endif;?>
+                                        <?php if($usia == 1):?>
+                                        <th class="p-0 text-muted fw-bold min-w-100px">Usia</th>
+                                        <?php endif;?>
                                         <th class="p-0 text-muted fw-bold min-w-60px">Q1</th>
                                         <th class="p-0 text-muted fw-bold min-w-60px">Q2</th>
                                         <th class="p-0 text-muted fw-bold min-w-60px">Q3</th>
@@ -143,9 +170,30 @@ Swal.fire({
                                                 <!--end::Name-->
                                             </div>
                                         </td>
+                                        <?php if($nama == 1):?>
                                         <td class="text-dark fw-bold">
                                             <?= $_SESSION['level'] == 0 ? '-':$responden['nama_responden'];?>
                                         </td>
+                                        <?php if($email == 1):?>
+                                        <td class="text-dark fw-bold">
+                                            <?= $_SESSION['level'] == 0 ? '-':$responden['email'];?></td>
+                                        <?php endif;?>
+                                        <?php if($prodi == 1):?>
+                                        <td class="text-dark fw-bold">
+                                            <?= $_SESSION['level'] == 0 ? '-':$responden['prodi'];?></td>
+                                        </td>
+                                        <?php endif;?>
+                                        <?php if($jk == 1):?>
+                                        <td class="text-dark fw-bold">
+                                            <?= $_SESSION['level'] == 0 ? '-':$responden['jk'];?></td>
+                                        </td>
+                                        <?php endif;?>
+                                        <?php if($usia == 1):?>
+                                        <td class="text-dark fw-bold">
+                                            <?= $_SESSION['level'] == 0 ? '-':$responden['usia'];?> Tahun</td>
+                                        </td>
+                                        <?php endif;?>
+                                        <?php endif;?>
                                         <td class="text-dark fw-bold">
                                             <?= $_SESSION['level'] == 0 ? '-':$responden['q1'];?>
                                         </td>
