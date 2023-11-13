@@ -474,7 +474,7 @@ Swal.fire({
                             <input class="form-check-input" <?= $usia == 1?'checked':''?> type="checkbox" id="usia"
                                 name="usia">
                             <label class="form-check-label" for="usia">
-                                Usia
+                                Tanggal Lahir
                             </label>
                         </div>
                     </div>
@@ -536,40 +536,35 @@ Swal.fire({
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                <!-- <button type="button" class="btn btn-sm btn-primary copy-button"
-                    data-id="<?=$aplikasi['id_aplikasi'];?>">Copy</button> -->
+                <button type="button" class="btn btn-sm btn-primary copy-button"
+                    data-id="<?=$aplikasi['id_aplikasi'];?>">Copy</button>
             </div>
         </div>
     </div>
 </div>
 <?php endforeach;?>
-
-<!-- Tambahkan library clipboard.js dari CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Inisialisasi Clipboard.js dengan tombol "Copy" yang memiliki kelas "copy-button"
     const copyButtons = document.querySelectorAll('.copy-button');
 
     copyButtons.forEach(copyButton => {
-        const id = copyButton.getAttribute('data-id');
-
         const clipboard = new ClipboardJS(copyButton, {
-            text: function() {
-                // Gantilah ini dengan teks yang sesuai untuk setiap aplikasi
-                return 'https://www.contoh.com/link-anda/' + id;
+            target: function(trigger) {
+                const appId = trigger.getAttribute('data-id');
+                return document.querySelector(`#copyLink${appId} code.language-python`);
             }
         });
 
         clipboard.on('success', function(e) {
-            // Saat penyalinan berhasil, ganti teks tombol menjadi "Copied"
-            copyButton.innerText = 'Copied';
+            e.clearSelection();
+            e.trigger.textContent = 'Copied';
+            setTimeout(function() {
+                e.trigger.textContent = 'Copy';
+            }, 2000);
         });
     });
 });
 </script>
-
 
 
 <!-- end::hapus modal aplikasi -->

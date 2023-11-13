@@ -56,7 +56,7 @@ if(isset($_POST['jawab']))
     $email = $jawaban[1];
     $prodi = $jawaban[2];
     $jk = $jawaban[3];
-    $usia = $jawaban[4];
+    $usia = date_diff(date_create($jawaban[4]), date_create('today'))->y;
     $q1 = $jawaban[5];
     $q2 = $jawaban[6];
     $q3 = $jawaban[7];
@@ -67,7 +67,7 @@ if(isset($_POST['jawab']))
     $q8 = $jawaban[12];
     $q9 = $jawaban[13];
     $q10 = $jawaban[14];
-    $jumlah = ($q1+$q2+$q3+$q4+$q5+$q6+$q7+$q8+$q9+$q10);
+    $jumlah = (($q1-1)+(5-$q2)+($q3-1)+(5-$q4)+($q5-1)+(5-$q6)+($q7-1)+(5-$q8)+($q9-1)+(5-$q10));
     $nilai_jumlah = ($jumlah * 2.5);
     $insert = $koneksi->query("INSERT INTO skor_asli (id_skor_asli,nama_responden,email,prodi,jk,usia,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,jumlah,nilai_jumlah,f_id_app) VALUES(0,'$nama_responden','$email','$prodi','$jk','$usia','$q1','$q2','$q3','$q4','$q5','$q6','$q7','$q8','$q9','$q10','$jumlah','$nilai_jumlah','$id_app')");
     
@@ -219,13 +219,13 @@ if(isset($_POST['jawab']))
                                 <?php endif;?>
                                 <?php if($usia == 1):?>
                                 <div class="form-outline shadow-sm card p-5 mb-4">
-                                    <label class="form-label" for="usia">Usia</label>
-                                    <input type="number" class="form-control" placeholder="Masukkan usia anda"
+                                    <label class="form-label" for="usia">Tanggal Lahir</label>
+                                    <input type="date" class="form-control" placeholder="Masukkan tanggal lahir anda"
                                         name="usia">
                                 </div>
                                 <?php else:?>
-                                <input type="hidden" value="0" class="form-control" placeholder="Masukkan usia anda"
-                                    name="usia">
+                                <input type="hidden" value="0000-00-00" class="form-control"
+                                    placeholder="Masukkan tanggal lahir anda" name="usia">
                                 <?php endif;?>
                                 <?php 
                                  $i = 0;
